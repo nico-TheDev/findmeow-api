@@ -32,3 +32,20 @@ module.exports.signup_post = async (req, res) => {
         res.status(404).json(err);
     }
 };
+
+module.exports.login_post = async (req, res) => {
+    const { email, password } = req.body.data;
+
+    try {
+        const user = await User.login(email, password);
+        const token = createToken(user._id);
+        res.cookie("jwt", token, {
+            domain: "http://localhost:3000",
+            maxAge: expiration * 1000,
+        });
+        res.status(201).json({ user: user._id, token });
+    } catch (err) {
+        handleErrors(err);
+        res.status(404).json(err);
+    }
+};
