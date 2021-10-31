@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 
 // ROUTE IMPORTS
 const userRoutes = require("./routes/UserRoutes");
+const postRoutes = require("./routes/PostRoutes");
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(userRoutes);
+app.use(postRoutes);
 
 module.exports = app;
