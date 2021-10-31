@@ -6,7 +6,11 @@ const router = Router();
 router.post("/signup", userController.signup_post);
 // LOGIN USER
 router.post("/login", userController.login_post);
-// EDIT USER INFO
+// GET USER INFO
+router.get("/user/:id", userController.user_get);
 // DELETE USER
+router.delete("/user/:id", userController.user_delete);
+// EDIT USER
+router.put("/user/:id", userController.user_put);
 
 module.exports = router;
