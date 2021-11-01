@@ -78,10 +78,43 @@ module.exports.post_delete = async (req, res) => {
     }
 };
 // MISSING PET TIMELINE POST
-module.exports.missing_post_timeline_get = async (req, res) => {};
+module.exports.missing_post_timeline_get = async (req, res) => {
+    try {
+        const timelinePosts = await Post.find({ type: "Missing" });
+        res.status(200).json({
+            posts: timelinePosts,
+            message: "Missing posts retrieved successfully",
+        });
+    } catch (err) {
+        handleErrors(err);
+        res.status(500).json(err);
+    }
+};
 // ADOPTION PET TIMELINE POST
-module.exports.adoption_post_timeline_get = async (req, res) => {};
+module.exports.adoption_post_timeline_get = async (req, res) => {
+    try {
+        const timelinePosts = await Post.find({ type: "Adoption" });
+        res.status(200).json({
+            posts: timelinePosts,
+            message: "Adoption posts retrieved successfully",
+        });
+    } catch (err) {
+        handleErrors(err);
+        res.status(500).json(err);
+    }
+};
 // MARK POST AS COMPLETED
 module.exports.mark_post_put = async (req, res) => {};
 // GET POST BY USER
-module.exports.all_posts_by_user_get = async (req, res) => {};
+module.exports.all_posts_by_user_get = async (req, res) => {
+    try {
+        const userPosts = await Post.find({ userId: req.params.id });
+        res.status(200).json({
+            posts: userPosts,
+            message: "user posts retrieved successfully",
+        });
+    } catch (err) {
+        handleErrors(err);
+        res.status(500).json(err);
+    }
+};

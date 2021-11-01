@@ -17,10 +17,13 @@ router.put("/post/:id", postController.edit_post_put);
 router.delete("/post/:id", postController.post_delete);
 
 // MISSING PET TIMELINE POST
-router.get("/post/missing", postController.missing_post_timeline_get);
+router.get("/post/missing/timeline", postController.missing_post_timeline_get);
 
 // ADOPTION PET TIMELINE POST
-router.get("/post/adoption", postController.adoption_post_timeline_get);
+router.get(
+    "/post/adoption/timeline",
+    postController.adoption_post_timeline_get
+);
 
 // GET ALL POST BY CURRENT USER
 router.get("/post/user/:id", postController.all_posts_by_user_get);
