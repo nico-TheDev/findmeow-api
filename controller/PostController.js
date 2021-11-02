@@ -104,7 +104,25 @@ module.exports.adoption_post_timeline_get = async (req, res) => {
     }
 };
 // MARK POST AS COMPLETED
-module.exports.mark_post_put = async (req, res) => {};
+module.exports.like_post_put = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (post.userId === req.body.data.userId) {
+            if (post.isCompleted) {
+                await post.updateOne({ isCompleted: false });
+                res.status(200).json("Post is now marked as not completed");
+            } else {
+                await post.updateOne({ isCompleted: true });
+                res.status(200).json("Post is now marked as completed");
+            }
+        } else {
+            res.status(403).json("You can only mark your own post");
+        }
+    } catch (err) {
+        handleErrors(err);
+        res.status(500).json(err);
+    }
+};
 // GET POST BY USER
 module.exports.all_posts_by_user_get = async (req, res) => {
     try {

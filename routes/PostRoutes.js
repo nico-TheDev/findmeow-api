@@ -25,6 +25,8 @@ router.get(
     postController.adoption_post_timeline_get
 );
 
+router.put("/post/like/:id", postController.like_post_put);
+
 // GET ALL POST BY CURRENT USER
 router.get("/post/user/:id", postController.all_posts_by_user_get);
 
