@@ -27,7 +27,18 @@ module.exports.signup_post = async (req, res) => {
             maxAge: expiration * 1000,
         });
 
-        res.status(201).json({ user: user._id, token });
+        res.status(201).json({
+            userID: user._id,
+            token,
+            user: {
+                name: user.name,
+                username: user.username,
+                profileImg: user.image,
+                email: user.email,
+                location: user.location,
+                contact: user.contact,
+            },
+        });
     } catch (err) {
         handleErrors(err);
         res.status(404).json(err);
@@ -44,7 +55,7 @@ module.exports.login_post = async (req, res) => {
             domain: "http://localhost:3000",
             maxAge: expiration * 1000,
         });
-        res.status(201).json({ user: user._id, token });
+        res.status(201).json({ userID: user._id, token, user });
     } catch (err) {
         handleErrors(err);
         res.status(404).json(err);
