@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const handleErrors = require("../util/handleErrors");
+const { upload } = require("../middleware/Upload");
 
 const expiration = 3 * 24 * 60 * 60;
 
@@ -10,7 +11,9 @@ const createToken = (id) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-    const { data } = req.body;
+    const data = req.body;
+    console.log(req.body);
+    console.log(req.file);
     try {
         const user = await User.create({
             email: data.email,
@@ -19,6 +22,7 @@ module.exports.signup_post = async (req, res) => {
             username: data.username,
             location: data.location,
             contact: data.contact,
+            profileImg: req.file.filename,
         });
 
         const token = createToken(user._id);

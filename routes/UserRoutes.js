@@ -1,9 +1,11 @@
 const { Router } = require("express");
-const userController = require("../controller/UserController");
 const router = Router();
 
+const userController = require("../controller/UserController");
+const { upload } = require("../middleware/Upload");
+
 // CREATER USER
-router.post("/signup", userController.signup_post);
+router.post("/signup", upload.single("profileImg"), userController.signup_post);
 // LOGIN USER
 router.post("/login", userController.login_post);
 // GET USER INFO
