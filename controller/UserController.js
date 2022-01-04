@@ -27,7 +27,7 @@ module.exports.signup_post = async (req, res) => {
 
         const token = createToken(user._id);
         res.cookie("jwt", token, {
-            domain: "http://localhost:3000",
+            domain: process.env.DOMAIN,
             maxAge: expiration * 1000,
         });
 
@@ -41,6 +41,7 @@ module.exports.signup_post = async (req, res) => {
                 email: user.email,
                 location: user.location,
                 contact: user.contact,
+                profileImg: user.profileImg,
             },
         });
     } catch (err) {
