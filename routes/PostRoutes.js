@@ -1,11 +1,16 @@
 const { Router } = require("express");
 const postController = require("../controller/PostController");
+const { upload } = require("../middleware/Upload");
 
 const router = Router();
 
 // CREATE POST
 
-router.post("/post/create", postController.create_post_post);
+router.post(
+    "/post/create",
+    upload.single("imgFile"),
+    postController.create_post_post
+);
 
 // GET POST
 

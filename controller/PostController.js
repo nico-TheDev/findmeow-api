@@ -4,7 +4,7 @@ const handleErrors = require("../util/handleErrors");
 
 // CREATE POST
 module.exports.create_post_post = async (req, res) => {
-    const newPost = req.body.data;
+    const newPost = req.body;
 
     try {
         const post = await Post.create({
@@ -14,6 +14,7 @@ module.exports.create_post_post = async (req, res) => {
             location: newPost.location,
             userId: newPost.userId,
             type: newPost.type,
+            image: req.file.filename,
         });
 
         res.status(200).json({
