@@ -81,7 +81,7 @@ module.exports.post_delete = async (req, res) => {
 // MISSING PET TIMELINE POST
 module.exports.missing_post_timeline_get = async (req, res) => {
     try {
-        const timelinePosts = await Post.find({ type: "Missing" });
+        const timelinePosts = await Post.find({ type: "missing" });
         res.status(200).json({
             posts: timelinePosts,
             message: "Missing posts retrieved successfully",
@@ -94,7 +94,7 @@ module.exports.missing_post_timeline_get = async (req, res) => {
 // ADOPTION PET TIMELINE POST
 module.exports.adoption_post_timeline_get = async (req, res) => {
     try {
-        const timelinePosts = await Post.find({ type: "Adoption" });
+        const timelinePosts = await Post.find({ type: "adoption" });
         res.status(200).json({
             posts: timelinePosts,
             message: "Adoption posts retrieved successfully",

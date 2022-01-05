@@ -22,13 +22,10 @@ router.put("/post/:id", postController.edit_post_put);
 router.delete("/post/:id", postController.post_delete);
 
 // MISSING PET TIMELINE POST
-router.get("/post/missing/timeline", postController.missing_post_timeline_get);
+router.get("/post/find/timeline", postController.missing_post_timeline_get);
 
 // ADOPTION PET TIMELINE POST
-router.get(
-    "/post/adoption/timeline",
-    postController.adoption_post_timeline_get
-);
+router.get("/post/adopt/timeline", postController.adoption_post_timeline_get);
 
 router.put("/post/like/:id", postController.like_post_put);
 
