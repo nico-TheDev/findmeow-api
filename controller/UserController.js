@@ -12,8 +12,7 @@ const createToken = (id) => {
 
 module.exports.signup_post = async (req, res) => {
     const data = req.body;
-    console.log(req.body);
-    console.log(req.file);
+
     try {
         const user = await User.create({
             email: data.email,
@@ -80,7 +79,7 @@ module.exports.user_get = async (req, res) => {
                 name: user.name,
                 contact: user.contact,
                 location: user.location,
-                image: user.image,
+                profileImg: user.profileImg,
             },
         });
     } catch (err) {
