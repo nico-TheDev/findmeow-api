@@ -56,13 +56,16 @@ module.exports.login_post = async (req, res) => {
         const user = await User.login(email, password);
         const token = createToken(user._id);
         res.cookie("jwt", token, {
-            domain: "http://localhost:3000",
+            domain: process.env.DOMAIN,
             maxAge: expiration * 1000,
         });
         res.status(201).json({ userID: user._id, token, user });
     } catch (err) {
-        handleErrors(err);
-        res.status(404).json(err);
+        res.status(404).json({
+            status: "404",
+            message: "Check your password or create your account",
+            error: err,
+        });
     }
 };
 
