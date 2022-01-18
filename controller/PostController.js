@@ -137,3 +137,13 @@ module.exports.all_posts_by_user_get = async (req, res) => {
         res.status(500).json(err);
     }
 };
+
+module.exports.all_posts_newsfeed_get = async (req, res) => {
+    try {
+        const allPosts = await Post.find({});
+        res.status(200).json({
+            posts: allPosts,
+            message: "All posts retrieved successfully",
+        });
+    } catch (err) {}
+};

@@ -13,6 +13,9 @@ router.post(
 );
 
 // GET POST
+// GET ALL POSTS
+
+router.get("/post/all/newsfeed", postController.all_posts_newsfeed_get);
 
 router.get("/post/:id", postController.post_get);
 // EDIT POST AND MARK POST AS COMPLETED
