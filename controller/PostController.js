@@ -14,7 +14,7 @@ module.exports.create_post_post = async (req, res) => {
             location: newPost.location,
             userId: newPost.userId,
             type: newPost.type,
-            image: req.file.filename,
+            image: newPost.imgFile,
         });
 
         res.status(200).json({
