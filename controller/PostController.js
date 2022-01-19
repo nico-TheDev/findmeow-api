@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 const handleErrors = require("../util/handleErrors");
 
@@ -32,7 +33,20 @@ module.exports.post_get = async (req, res) => {
 
     try {
         const post = await Post.findById(id);
-        res.status(200).json(post);
+        const targetUser = await User.findById(post.userId);
+
+        res.status(200).json({
+            post,
+            user: {
+                id: targetUser._id,
+                email: targetUser.email,
+                username: targetUser.username,
+                name: targetUser.name,
+                contact: targetUser.contact,
+                location: targetUser.location,
+                profileImg: targetUser.profileImg,
+            },
+        });
     } catch (err) {
         handleErrors(err);
         res.status(404).json(err);
