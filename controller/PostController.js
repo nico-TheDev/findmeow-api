@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const { cloudinary } = require("../util/cloudinary");
 
 const handleErrors = require("../util/handleErrors");
 
@@ -55,14 +56,18 @@ module.exports.post_get = async (req, res) => {
 // EDIT POST
 module.exports.edit_post_put = async (req, res) => {
     const { id } = req.params;
-    const { userId } = req.body.data;
+    const { userId } = req.body.editedPost;
+    const targetDeleteID = req.body.prevPublicID;
 
     const targetPost = await Post.findById(id);
 
     if (targetPost.userId === userId) {
         try {
+            const cloudinaryResp = await cloudinary.uploader.destroy(
+                targetDeleteID
+            );
             const post = await Post.findByIdAndUpdate(id, {
-                $set: req.body.data.post,
+                $set: req.body.editedPost,
             });
             res.status(200).json("Post Updated Successfully");
         } catch (err) {
