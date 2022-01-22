@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const handleErrors = require("../util/handleErrors");
-const { upload } = require("../middleware/Upload");
+const { cloudinary } = require("../util/cloudinary");
 
 const expiration = 3 * 24 * 60 * 60;
 
@@ -113,27 +113,44 @@ module.exports.user_delete = async (req, res) => {
 };
 
 module.exports.user_put = async (req, res) => {
-    // CHECK IF THE USER IS EDITING THEIR OWN ACCOUNT
+    console.log(req.body);
+    const { editedProfile, prevPublicID: targetDeleteID } = req.body;
 
-    if (req.body.data.id === req.params.id) {
-        if (req.body.data.password) {
+    // CHECK IF THE USER IS EDITING THEIR OWN ACCOUNT
+    if (editedProfile.id === req.params.id) {
+        if (editedProfile.password) {
             const salt = await bcrypt.genSalt();
-            req.body.data.password = await bcrypt.hash(
-                req.body.data.password,
+            editedProfile.password = await bcrypt.hash(
+                editedProfile.password,
                 salt
             );
         }
 
         try {
+            const cloudinaryResp = await cloudinary.uploader.destroy(
+                targetDeleteID
+            );
             const user = await User.findByIdAndUpdate(req.params.id, {
-                $set: req.body.data,
+                $set: editedProfile,
             });
-            res.status(200).json("Account Updated Successfully");
+            console.log(user);
+            res.status(200).json({
+                message: "Account Updated Successfully",
+                updatedUser: {
+                    id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    name: user.name,
+                    contact: user.contact,
+                    location: user.location,
+                    profileImg: user.profileImg,
+                },
+            });
         } catch (err) {
             handleErrors(err);
             res.status(500).json(err);
         }
     } else {
-        res.status(403).json("You can only edit your own account");
+        res.status(403).json({ message: "You can only edit your own account" });
     }
 };
