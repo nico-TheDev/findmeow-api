@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const handleErrors = require("../util/handleErrors");
@@ -81,7 +82,7 @@ module.exports.user_get = async (req, res) => {
         const user = await User.findById(id);
         res.status(200).json({
             user: {
-                id: user._id,
+                id: user.id,
                 email: user.email,
                 username: user.username,
                 name: user.name,
@@ -98,10 +99,18 @@ module.exports.user_get = async (req, res) => {
 
 module.exports.user_delete = async (req, res) => {
     // CHECK IF THE USER IS DELETING THEIR OWN ACCOUNT
-
-    if (req.body.data.id === req.params.id) {
+    const currentUser = req.body.currentUser;
+    const targetUser = req.params.id;
+    const profileID = req.body.publicID;
+    if (currentUser === targetUser) {
         try {
             const user = await User.findByIdAndDelete(req.params.id);
+            const allPosts = await Post.find({ userId: currentUser });
+            await cloudinary.uploader.destroy(profileID);
+            allPosts.forEach(async (item) => {
+                await cloudinary.uploader.destroy(item.image);
+                await Post.findByIdAndDelete(item.id);
+            });
             res.status(200).json("Account Deleted Successfully");
         } catch (err) {
             handleErrors(err);
