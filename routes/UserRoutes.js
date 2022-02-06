@@ -32,7 +32,7 @@ router.get(
 );
 
 // GET ONE USER
-
+router.get("/admin/users/:id", userController.admin_user_one_get);
 // GET MULTIPLE USER
 
 // GET USER RELATED / GET MANY REFERENCE
@@ -42,6 +42,7 @@ router.get(
 // UPDATE MULTIPLE USER
 
 // DELETE USER
+router.delete("/admin/users/:id", userController.admin_user_one_delete);
 
 // DELETE MULTIPLE USER
 

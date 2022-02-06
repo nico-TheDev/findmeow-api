@@ -43,7 +43,7 @@ router.get(
     postController.admin_post_list_get
 );
 // GET ONE POST
-
+router.get("/admin/posts/:id", postController.admin_post_one_get);
 // GET MULTIPLE POSTS
 
 // GET POSTS RELATED / GET MANY REFERENCE

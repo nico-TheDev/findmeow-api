@@ -192,3 +192,11 @@ module.exports.admin_post_list_get = async (req, res) => {
 
     res.status(200).json(response);
 };
+
+module.exports.admin_post_one_get = async (req, res) => {
+    try {
+        console.log(req.params);
+    } catch (err) {
+        res.status(500).json({ message: e.message });
+    }
+};

@@ -181,3 +181,49 @@ module.exports.admin_user_list_get = async (req, res) => {
 
     res.status(200).json(response);
 };
+
+module.exports.admin_user_one_get = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findById(id);
+        res.status(200).json({
+            data: {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                name: user.name,
+                contact: user.contact,
+                location: user.location,
+                profileImg: user.profileImg,
+            },
+        });
+    } catch (err) {
+        handleErrors(err);
+        res.status(404).json(err);
+    }
+};
+
+module.exports.admin_user_one_delete = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // FIND USER
+        const targetUser = await User.findById(id);
+        // FIND POSTS
+        const targetUserPosts = await Post.find({ userId: id });
+        // DELETE IMAGES FROM CLOUDINARY
+        targetUserPosts.forEach(async (item) => {
+            await cloudinary.uploader.destroy(item.image);
+        });
+        await Post.deleteMany({ userId: id });
+        await cloudinary.uploader.destroy(targetUser.profileImg);
+        // DELETE USER
+        const deletedUser = await User.findByIdAndDelete(id);
+
+        res.status(202).json({ data: deletedUser });
+    } catch (err) {
+        handleErrors(err);
+        res.status(404).json(err);
+    }
+};
