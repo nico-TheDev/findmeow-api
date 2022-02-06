@@ -167,18 +167,13 @@ module.exports.user_put = async (req, res) => {
 /********************   ADMIN STUFF    *************************/
 
 module.exports.admin_user_list_get = async (req, res) => {
-    console.log(req.query);
     const response = {};
-
     response.data = res.paginatedResults.results;
     response.total = res.paginatedResults.total;
     response.next = res.paginatedResults.next;
     response.prev = res.paginatedResults.previous;
     response.status = 200;
     response.message = "Users Retrieved";
-
-    //
-
     res.status(200).json(response);
 };
 
@@ -229,9 +224,6 @@ module.exports.admin_user_one_delete = async (req, res) => {
 };
 
 module.exports.admin_user_many_delete = async (req, res) => {
-    console.log(req.query);
-    let toDeletePhotos = [];
-    let postPhotos = [];
     if (req.query.filter) {
         let filterIds = req.query.filter ? JSON.parse(req.query.filter).id : [];
         try {

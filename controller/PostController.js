@@ -178,18 +178,13 @@ module.exports.all_posts_newsfeed_get = async (req, res) => {
 /********************   ADMIN STUFF    *************************/
 
 module.exports.admin_post_list_get = async (req, res) => {
-    console.log(req.query);
     const response = {};
-
     response.data = res.paginatedResults.results;
     response.total = res.paginatedResults.total;
     response.next = res.paginatedResults.next;
     response.prev = res.paginatedResults.previous;
     response.status = 200;
     response.message = "Posts Retrieved";
-
-    //
-
     res.status(200).json(response);
 };
 
@@ -198,5 +193,38 @@ module.exports.admin_post_one_get = async (req, res) => {
         console.log(req.params);
     } catch (err) {
         res.status(500).json({ message: e.message });
+    }
+};
+
+module.exports.admin_post_one_delete = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // FIND POST
+        const targetPost = await Post.findById(id);
+        // DELETE IMAGE FROM CLOUDINARY
+        await cloudinary.uploader.destroy(targetPost.image);
+        await Post.findByIdAndDelete(id);
+        res.status(200).json({ data: targetPost });
+    } catch (err) {
+        handleErrors(err);
+        res.status(404).json(err);
+    }
+};
+
+module.exports.admin_post_many_delete = async (req, res) => {
+    if (req.query.filter) {
+        let filterIds = req.query.filter ? JSON.parse(req.query.filter).id : [];
+        try {
+            const foundPosts = await Post.find({ _id: { $in: filterIds } });
+            await Post.deleteMany({ _id: { $in: filterIds } });
+            foundPosts.forEach(async (post) => {
+                await cloudinary.uploader.destroy(post.image);
+            });
+            console.log(foundPosts.length);
+            res.status(200).json({ data: foundPosts });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
     }
 };

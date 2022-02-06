@@ -53,7 +53,9 @@ router.get("/admin/posts/:id", postController.admin_post_one_get);
 // UPDATE MULTIPLE POST
 
 // DELETE POST
+router.delete("/admin/posts/:id", postController.admin_post_one_delete);
 
 // DELETE MULTIPLE POST
+router.delete("/admin/posts", postController.admin_post_many_delete);
 
 module.exports = router;

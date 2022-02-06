@@ -1,7 +1,5 @@
 const PaginatedResults = (model) => {
     return async (req, res, next) => {
-        console.log(req.query);
-
         let page, perPage, field, order, filter, sort;
         if (req.query.pagination) {
             page = JSON.parse(req.query.pagination).page;
@@ -13,7 +11,6 @@ const PaginatedResults = (model) => {
             // order = req.query.sort.order;
             sort = JSON.parse(req.query.sort);
             sort = sort.map((item) => item.toLowerCase());
-            console.log(sort);
         }
 
         if (req.query.filter) {
@@ -45,7 +42,6 @@ const PaginatedResults = (model) => {
         // GET THE DATA FROM THE DATABASE
         try {
             let findFilter = filter ? filter : {};
-            console.log("findFilter", findFilter);
             let limitCount = perPage ? JSON.parse(perPage) : 0;
             let skipCount = startIndex || 0;
             let sorter = sort ? sort : [];
