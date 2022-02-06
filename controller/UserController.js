@@ -227,3 +227,30 @@ module.exports.admin_user_one_delete = async (req, res) => {
         res.status(404).json(err);
     }
 };
+
+module.exports.admin_user_many_delete = async (req, res) => {
+    console.log(req.query);
+    let toDeletePhotos = [];
+    let postPhotos = [];
+    if (req.query.filter) {
+        let filterIds = req.query.filter ? JSON.parse(req.query.filter).id : [];
+        try {
+            const foundUsers = await User.find({ _id: { $in: filterIds } });
+            await User.deleteMany({ _id: { $in: filterIds } });
+
+            foundUsers.forEach(async (user) => {
+                await cloudinary.uploader.destroy(user.profileImg);
+            });
+
+            const foundPosts = await Post.find({ userId: { $in: filterIds } });
+            await Post.deleteMany({ userId: { $in: filterIds } });
+            foundPosts.forEach(async (post) => {
+                await cloudinary.uploader.destroy(post.image);
+            });
+
+            res.status(200).json({ data: [...foundUsers, ...foundPosts] });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+};

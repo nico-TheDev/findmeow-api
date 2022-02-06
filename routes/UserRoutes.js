@@ -46,4 +46,6 @@ router.delete("/admin/users/:id", userController.admin_user_one_delete);
 
 // DELETE MULTIPLE USER
 
+router.delete("/admin/users", userController.admin_user_many_delete);
+
 module.exports = router;
