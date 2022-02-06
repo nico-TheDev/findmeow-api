@@ -17,7 +17,7 @@ const PaginatedResults = (model) => {
         }
 
         if (req.query.filter) {
-            filter = req.query.filter;
+            filter = JSON.parse(req.query.filter);
         }
 
         // IDENTIFY THE INDEXES
@@ -44,7 +44,8 @@ const PaginatedResults = (model) => {
 
         // GET THE DATA FROM THE DATABASE
         try {
-            let findFilter = filter ? JSON.parse(filter) : {};
+            let findFilter = filter ? filter : {};
+            console.log("findFilter", findFilter);
             let limitCount = perPage ? JSON.parse(perPage) : 0;
             let skipCount = startIndex || 0;
             let sorter = sort ? sort : [];

@@ -20,7 +20,7 @@ router.put("/user/:id", userController.user_put);
 // ALL USER
 router.get("/admin/user/");
 
-// FOR ADMIN
+/********************   ADMIN STUFF    *************************/
 
 // CREATE SINGLE USER
 

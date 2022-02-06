@@ -1,16 +1,13 @@
 const { Router } = require("express");
 const postController = require("../controller/PostController");
-const { upload } = require("../middleware/Upload");
+const paginatedResults = require("../middleware/PaginatedResults");
+const Post = require("../models/Post");
 
 const router = Router();
 
 // CREATE POST
 
-router.post(
-    "/post/create",
-    upload.single("imgFile"),
-    postController.create_post_post
-);
+router.post("/post/create", postController.create_post_post);
 
 // GET POST
 // GET ALL POSTS
@@ -35,12 +32,16 @@ router.put("/post/like/:id", postController.like_post_put);
 // GET ALL POST BY CURRENT USER
 router.get("/post/user/:id", postController.all_posts_by_user_get);
 
-// FOR ADMIN
+/********************   ADMIN STUFF    *************************/
 
 // CREATE SINGLE POST
 
 // GET OR SEARCH POST
-router.get("/admin/post/");
+router.get(
+    "/admin/posts",
+    paginatedResults(Post),
+    postController.admin_post_list_get
+);
 // GET ONE POST
 
 // GET MULTIPLE POSTS

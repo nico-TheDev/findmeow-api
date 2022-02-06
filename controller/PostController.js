@@ -174,3 +174,21 @@ module.exports.all_posts_newsfeed_get = async (req, res) => {
         });
     } catch (err) {}
 };
+
+/********************   ADMIN STUFF    *************************/
+
+module.exports.admin_post_list_get = async (req, res) => {
+    console.log(req.query);
+    const response = {};
+
+    response.data = res.paginatedResults.results;
+    response.total = res.paginatedResults.total;
+    response.next = res.paginatedResults.next;
+    response.prev = res.paginatedResults.previous;
+    response.status = 200;
+    response.message = "Posts Retrieved";
+
+    //
+
+    res.status(200).json(response);
+};
