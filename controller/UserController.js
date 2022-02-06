@@ -163,3 +163,21 @@ module.exports.user_put = async (req, res) => {
         res.status(403).json({ message: "You can only edit your own account" });
     }
 };
+
+/********************   ADMIN STUFF    *************************/
+
+module.exports.admin_user_list_get = async (req, res) => {
+    console.log(req.query);
+    const response = {};
+
+    response.data = res.paginatedResults.results;
+    response.total = res.paginatedResults.total;
+    response.next = res.paginatedResults.next;
+    response.prev = res.paginatedResults.previous;
+    response.status = 200;
+    response.message = "Users Retrieved";
+
+    //
+
+    res.status(200).json(response);
+};

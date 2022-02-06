@@ -35,4 +35,24 @@ router.put("/post/like/:id", postController.like_post_put);
 // GET ALL POST BY CURRENT USER
 router.get("/post/user/:id", postController.all_posts_by_user_get);
 
+// FOR ADMIN
+
+// CREATE SINGLE POST
+
+// GET OR SEARCH POST
+router.get("/admin/post/");
+// GET ONE POST
+
+// GET MULTIPLE POSTS
+
+// GET POSTS RELATED / GET MANY REFERENCE
+
+// UPDATE POST
+
+// UPDATE MULTIPLE POST
+
+// DELETE POST
+
+// DELETE MULTIPLE POST
+
 module.exports = router;
