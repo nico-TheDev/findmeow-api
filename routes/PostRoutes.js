@@ -49,6 +49,7 @@ router.get("/admin/posts/:id", postController.admin_post_one_get);
 // GET POSTS RELATED / GET MANY REFERENCE
 
 // UPDATE POST
+router.put("/admin/posts/:id", postController.admin_post_one_put);
 
 // UPDATE MULTIPLE POST
 

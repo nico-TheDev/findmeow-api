@@ -228,3 +228,29 @@ module.exports.admin_post_many_delete = async (req, res) => {
         }
     }
 };
+
+module.exports.admin_post_one_put = async (req, res) => {
+    const id = req.params.id;
+    const postDetails = req.body;
+
+    const edited = {
+        name: postDetails.name,
+        breed: postDetails.breed,
+        description: postDetails.description,
+        location: postDetails.location,
+        isCompleted: postDetails.isCompleted,
+    };
+
+    try {
+        const post = await Post.findByIdAndUpdate(id, {
+            $set: edited,
+        });
+        res.status(200).json({
+            data: post,
+            message: "Post Updated Successfully",
+        });
+    } catch (err) {
+        handleErrors(err);
+        res.status(500).json(err);
+    }
+};
