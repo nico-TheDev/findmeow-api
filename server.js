@@ -7,7 +7,7 @@ const app = require("./app");
 
 const DB = process.env.MONGO_STRING.replace("<password>", process.env.PASSWORD);
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 mongoose.set("toJSON", {
     virtuals: true,
